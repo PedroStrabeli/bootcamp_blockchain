@@ -1,5 +1,13 @@
 pragma solidity ^0.4.13;
 
+//https://ethereum.stackexchange.com/
+
+// truffle compile
+// testrpc no cmd
+
+// truffle migrate
+// truffle tests
+
 contract SocialICO {
 	using SafeMath for uint256;
 	
@@ -58,7 +66,7 @@ contract SocialICO {
 		owner = msg.sender;
 	}
 	
-	function() // callback
+	function() // callback (ou fallback)
 		payable // este é do solidity
 		isWorking
 	{		
@@ -67,7 +75,7 @@ contract SocialICO {
 		balances[msg.sender] = balances[msg.sender].plus(tokenAmount);
 		invested[msg.sender].val = invested[msg.sender].val.plus(msg.value);
 		distributedAmount = distributedAmount.plus(tokenAmount);
-		icoWeiRaised = icoWeiRaised.plus(msg.value)
+		icoWeiRaised = icoWeiRaised.plus(msg.value);
 
 		invested[msg.sender].isInvestor = true;
 
@@ -77,7 +85,6 @@ contract SocialICO {
 	function Approve() 
 		isInvestor
 	{		
-		require()
 		stakeApproved = stakeApproved.plus(invested[msg.sender].val);
 
 		if(stakeApproved >= (icoWeiRaised.div(3))) {
