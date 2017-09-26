@@ -7,10 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-  	"express": "*",
-  	"body-parser": "*",
-  	"mongoose": "*",
-  	"web3": "*",
+    "express": "*",
+    "body-parser": "*",
+    "mongoose": "*",
+    "web3": "*",
     "truffle-contract": "*"
   },
   "author": "Fernando",

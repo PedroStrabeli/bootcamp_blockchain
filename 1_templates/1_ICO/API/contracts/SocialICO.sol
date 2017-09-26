@@ -23,7 +23,7 @@ contract SocialICO {
 	mapping(address => Investidor) public invested;
 	
 	uint256 private distributedAmount = 0;
-	uint256 private icoWeiRaised = 0;
+	uint256 private icoWeiRaised = 0; // 1 Wei = 1E-18 Ether
 	uint256 private stakeApproved = 0;
 
 	bool private ended = false;
@@ -32,7 +32,8 @@ contract SocialICO {
 	event EventDonated(address indexed _who, uint256 _amount);
 	event EventApproved(address indexed _who);
 	event EventDrain(address indexed _who, uint256 _amount);
-    
+    // relevante poder buscar por eventos na chain
+
 	modifier onlyOwner() {
 		require(msg.sender == owner);
 		_;
@@ -57,17 +58,33 @@ contract SocialICO {
 		owner = msg.sender;
 	}
 	
-	function()
-		payable 
+	function() // callback
+		payable // este é do solidity
 		isWorking
 	{		
-		EventDonated(msg.sender, msg.value);
+		require(msg.value > 0);
+		uint256 tokenAmount = msg.value.times(tokensPerEther);
+		balances[msg.sender] = balances[msg.sender].plus(tokenAmount);
+		invested[msg.sender].val = invested[msg.sender].val.plus(msg.value);
+		distributedAmount = distributedAmount.plus(tokenAmount);
+		icoWeiRaised = icoWeiRaised.plus(msg.value)
+
+		invested[msg.sender].isInvestor = true;
+
+		EventDonated(msg.sender, msg.value); // registrado na blockchain
 	}
 
 	function Approve() 
 		isInvestor
 	{		
-		EventApproved(msg.sender);
+		require()
+		stakeApproved = stakeApproved.plus(invested[msg.sender].val);
+
+		if(stakeApproved >= (icoWeiRaised.div(3))) {
+			approved = true;
+		}
+
+		EventApproved(msg.sender); // log sempre, na falha ou no sucesso
 	}
 
 	function CheckApproval() returns (bool){
@@ -78,6 +95,9 @@ contract SocialICO {
 		onlyOwner
 		isApproved
 	{
+		uint256 weiAmount = this.balance;
+		owner.transfer(weiAmount);
+		
 		EventDrain(owner, weiAmount);
 	}
 
