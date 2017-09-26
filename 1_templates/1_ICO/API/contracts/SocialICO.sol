@@ -8,6 +8,10 @@ pragma solidity ^0.4.13;
 // truffle migrate
 // truffle tests
 
+
+// node api
+
+
 contract SocialICO {
 	using SafeMath for uint256;
 	
@@ -27,6 +31,7 @@ contract SocialICO {
 		bool isInvestor;
 	}
 	
+
 	mapping(address => uint256) public balances;
 	mapping(address => Investidor) public invested;
 	
